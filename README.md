@@ -55,7 +55,7 @@ RETURN CODE: 0
 
 >>    for package in packages:
 
->>        req.add(package)
+>>        req . add (package)
 
 >>    req.upload(dest)
 
