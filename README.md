@@ -40,3 +40,25 @@ To https://github.com/Avery-Woodlief/automation-tools.git
 
 RETURN CODE: 0
 
+## Other File Tools
+
+### Creating a requirements.txt
+
+#### example 1
+
+>def example_usage2(packages, dest = ""):
+>>    req = RequirementsMixin() # this just does the one package it uses, importlib.metadata. sys is part of standard
+
+>>    for package in packages:
+>>        req[package] = version(package)
+
+>>    req.upload(dest)
+
+>example_usage2(["pygame", "regex", "importlib.metadata"], "../")
+
+#### output of example 1 in generated file requirements.txt
+
+>pygame==2.5.2
+>regex==2023.10.3
+>importlib.metadata==4.6.4
+
