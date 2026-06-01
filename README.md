@@ -30,7 +30,7 @@ successfully grabbed files from section: modified
 
 > git.run("git push")
 
-COMMAND: git push
+COMMAND: g i t p u s h
 
 STDOUT:
 
