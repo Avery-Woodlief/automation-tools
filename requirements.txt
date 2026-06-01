@@ -1,0 +1,3 @@
+pygame==2.5.2
+regex==2023.10.3
+importlib.metadata==4.6.4
