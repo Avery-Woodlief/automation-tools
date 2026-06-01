@@ -190,9 +190,9 @@ class GitHelper:
             print("STDOUT:", result.stdout)
             print("STDERR:", result.stderr)
             print("RETURN CODE:", result.returncode)
-
             if result.returncode != 0:
                 raise RuntimeError("Command failed")
+            return
         elif (command == "git status"):
             self.output_string = subprocess.check_output(["git", "status"],text=True)
             self.init_sections()     
@@ -245,6 +245,9 @@ class GitHelper:
                     i += 1
         #print(self.ordered_sections)
         print("initialized and ordered the sections")
+        names = ["modified", "deleted", "Untracked files"]
+        for name in names:
+            self.get_files(name)
         return
 
     def get_section_after(self, section):
