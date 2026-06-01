@@ -59,6 +59,8 @@ RETURN CODE: 0
 #### output of example 1 in generated file requirements.txt
 
 >pygame==2.5.2
+
 >regex==2023.10.3
+
 >importlib.metadata==4.6.4
 
