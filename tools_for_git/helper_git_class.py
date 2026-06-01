@@ -185,7 +185,7 @@ class GitHelper:
             print(f"'{command}' is not a valid command")
             return
         elif (command == "git push"):
-            result = subprocess.run(command, capture_output=True, text=True)
+            result = subprocess.run(command.split(" "), capture_output=True, text=True)
             print("COMMAND:", " ".join(command))
             print("STDOUT:", result.stdout)
             print("STDERR:", result.stderr)
