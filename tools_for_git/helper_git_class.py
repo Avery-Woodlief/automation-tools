@@ -140,8 +140,6 @@ commands = {
             "git add": lambda files : subprocess.run(["git", "add", files]),
             "git commit -m": lambda commit : subprocess.run(["git", "commit", "-m", commit]),
             "git commit -a -m": lambda commit : subprocess.run(["git", "commit", "-a", "-m", commit]),
-            "git add .": subprocess.run(["git", "add", "."]),
-            "git branch": subprocess.run(["git","branch"]),
             "git push": '''result = subprocess.run(cmd, capture_output=True, text=True)
 print("COMMAND:", " ".join(cmd))
 print("STDOUT:", result.stdout)
@@ -188,7 +186,10 @@ class GitHelper:
         return base
 
     def run(self, command):
-        if (command not in list(commands.keys())):
+        if ((command not in list(commands.keys())) and 
+            (command != "git status") and (command != "git push") and
+            (command != "git add .") and (command != "git init") and
+            (command != "git branch")):
             print(f"'{command}' is not a valid command")
             return
         if (command == "git push"):
@@ -200,6 +201,10 @@ class GitHelper:
             commands[command]
         elif (command == "git init"):
             subprocess.run(["git", "init"])
+        elif (command == "git add ."):
+            subprocess.run(["git", "add", "."])
+        elif (command == "git branch"):
+            subprocess.run(["git","branch"])    
         else:
             commands[command](input("> "))
        
