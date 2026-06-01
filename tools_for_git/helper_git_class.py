@@ -140,8 +140,8 @@ commands = {
             "git add": lambda files : subprocess.run(["git", "add", files]),
             "git commit -m": lambda commit : subprocess.run(["git", "commit", "-m", commit]),
             "git commit -a -m": lambda commit : subprocess.run(["git", "commit", "-a", "-m", commit]),
-            "git push": '''result = subprocess.run(cmd, capture_output=True, text=True)
-print("COMMAND:", " ".join(cmd))
+            "git push": '''result = subprocess.run(command, capture_output=True, text=True)
+print("COMMAND:", " ".join(command))
 print("STDOUT:", result.stdout)
 print("STDERR:", result.stderr)
 print("RETURN CODE:", result.returncode)
