@@ -137,10 +137,23 @@ common_extensions = '''.py
 
 
 commands = {
-            "git status" : '''self.output_string = subprocess.check_output(["git", "status"],text=True)''',
             "git add": lambda files : subprocess.run(["git", "add", files]),
             "git commit -m": lambda commit : subprocess.run(["git", "commit", "-m", commit]),
-            "git commit -a -m": lambda commit : subprocess.run(["git", "commit", "-a", "-m", commit])
+            "git commit -a -m": lambda commit : subprocess.run(["git", "commit", "-a", "-m", commit]),
+            "git add .": subprocess.run(["git", "add", "."]),
+            "git branch": subprocess.run(["git","branch"]),
+            "git push": '''result = subprocess.run(cmd, capture_output=True, text=True)
+print("COMMAND:", " ".join(cmd))
+print("STDOUT:", result.stdout)
+print("STDERR:", result.stderr)
+print("RETURN CODE:", result.returncode)
+
+if result.returncode != 0:
+    raise RuntimeError("Command failed")''',
+            "git remote add": lambda repo_url : subprocess.run(["git", "remote", "add", repo_url]),
+            "git pull": lambda repo_url: subprocess.run(["git", "pull", repo_url]),
+            "git branch -M": lambda new_master_name_forced: subprocess.run(["git", "branch", "-M", new_master_name_forced]),
+            "git branch -m": lambda new_master_name_checked: subprocess.run(["git", "branch", "-m", new_master_name_checked])
             }
 
 
@@ -175,35 +188,20 @@ class GitHelper:
         return base
 
     def run(self, command):
-        if (command == "git add"):
-            print(self.files)
-            files = print("files to add - ('QUIT' to stop)")
-            files = input("> ")
-            while (files != "QUIT"):
-                commands[command](files)
-                files = input("> ")
-        elif (command == "test"):
-            print("test command")
-        elif (command == "git commit -m"):
-            print("commit messages - ('QUIT' to stop)")
-            commit = input("> ")
-            while (commit != "QUIT"):
-                commands[command](commit)
-                commit = input("> ")
-        elif (command == "git push"):
-            cmd = command.split(" ")
-            result = subprocess.run(cmd, capture_output=True, text=True)
-            print("COMMAND:", " ".join(cmd))
-            print("STDOUT:", result.stdout)
-            print("STDERR:", result.stderr)
-            print("RETURN CODE:", result.returncode)
-
-            if result.returncode != 0:
-                raise RuntimeError("Command failed")
-        else:
+        if (command not in list(commands.keys())):
+            print(f"'{command}' is not a valid command")
+            return
+        if (command == "git push"):
             exec(commands[command])
-            if (command == "git status"):
-                self.init_sections()
+        elif (command == "git status"):
+            self.output_string = subprocess.check_output(["git", "status"],text=True)
+            self.init_sections()     
+        elif (command == "git add ."):# commands that just need the sub_process function
+            commands[command]
+        elif (command == "git init"):
+            subprocess.run(["git", "init"])
+        else:
+            commands[command](input("> "))
        
     def init_sections(self):
         for section in self.section_names:
