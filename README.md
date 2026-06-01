@@ -17,9 +17,13 @@ created parsing pattern...
 > git.run("git status")
 
 no deleted files
+
 no untracked files
+
 initialized and ordered the sections
+
 Searching for modified files...
+
 successfully grabbed files from section: modified
 
 > git.run("git commit -a -m")
@@ -50,7 +54,8 @@ RETURN CODE: 0
 >>    req = RequirementsMixin() # this just does the one package it uses, importlib.metadata. sys is part of standard
 
 >>    for package in packages:
->>        req[package] = version(package)
+
+>>        req.add(package)
 
 >>    req.upload(dest)
 
