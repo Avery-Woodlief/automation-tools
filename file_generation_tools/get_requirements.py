@@ -16,7 +16,7 @@ class RequirementsMixin:
     def __setitem__(self, package_name, version):
         self.requirements[package_name] = version
 
-    def add(self, package_name):
+    def add(self, package_name): # test comment
         try:
             self[package_name] = version(package_name)
         except (PackageNotFoundError):
