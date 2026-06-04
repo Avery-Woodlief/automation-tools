@@ -46,25 +46,36 @@ RETURN CODE: 0
 
 ## Other File Tools
 
-### Creating a requirements.txt
+### Downloading as python3 package
 
-#### example 1
+    1) navigate to `file_generation_tools`
+    2) run python3 -m pip install -e . (installs `file_generation_tools` as a python3 package you can use anywhere)
+        2.a) If you want to delete package then just do python3 -m pip uninstall file_generation_tools
+#### Command Line use
 
->def example_usage2(packages, dest = ""):
->>    req = RequirementsMixin() # this just does the one package it uses, importlib.metadata. sys is part of standard
+    1) python3
+    2) from requirements import Requirements
+    3) Requirements()
 
->>    for package in packages:
->>      req.add(package)
+#### In .py file use
 
->>    req.upload(dest)
+    1) Goto the end of any working .py file in your python3 project
+    2) from requirements import Requirements
+    3) Requirements()
 
->example_usage2(["pygame", "regex", "importlib.metadata"], "../")
+##### Explaination
 
-#### output of example 1 in generated file requirements.txt
-
->pygame==2.5.2
-
->regex==2023.10.3
-
->importlib.metadata==4.6.4
-
+    When you do Requirements() it creates an instance of a class that searches through (from root of project) all the .py files in your project.
+    Then it parses through each one, line by line to search from keywords such as `import` or `from` in sentences such as: 
+        'import \w+\.\w+', 'import \w+', 'from \w+\.\w+', 'from \w+'
+    and it grabs whatever is the `\w+` or `\w+\.\w+`, checks validity of the found name to make sure its actually an import and puts it in a list. It also uses a dictionary that maps dependencies for a specific .py file.
+    Then it writes to a `requirements.txt` file in root of your project and places the dependeces with version numbers as `name==version`.
+    
+    _WARNING_:
+        some import names do not match the distribution names and may fail to be collected, however the following cases are handled by default:
+            "dotenv":"python-dotenv", 
+            "PIL":"Pillow", 
+            "cv2":"opencv-python", 
+            "sklearn":"scikit-learn", 
+            "yaml":"PyYAML", 
+            "re":"regex"
