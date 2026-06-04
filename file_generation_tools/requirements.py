@@ -7,6 +7,7 @@ import os
 
 #from get_requirements import *;req = Requirements(prints=1);req.grab_file("get_requirements.py");req.get_file_imports();req.current_file_imports
 
+
 class Requirements:
 
     def __init__(self, prints = 0, include_metadata = 0):
@@ -42,7 +43,7 @@ class Requirements:
         self.upload()
         
     
-    def grab_file(self, file_name): # TODO extension check later
+    def grab_file(self, file_name):
         with open(file_name, "r") as file:
             self.current_file = file.readlines()
             self.current_file_name = file_name
@@ -50,14 +51,16 @@ class Requirements:
         return
 
     def get_file_imports(self):
-        temp = []
+        ignoring = False
         for line in self.current_file:
-            if ("import" in line):
-                temp.append(line)
-
-        #print(temp)
-        for line in temp:
-            if (re.search("\s*#", line)):
+            if (re.search(r"\s*'''|'''", line)):
+                if (ignoring): # closing '''
+                    ignoring = False
+                elif (not ignoring): # opening '''
+                    ignoring = True
+            if (ignoring):
+                continue
+            if (re.search(r"\s*#", line)):
                 continue
             if (re.search(r"(?<=from )(\w+\.\w+|\w+)", line)):
                 #print(line)
