@@ -49,7 +49,7 @@ RETURN CODE: 0
 ### Downloading as python3 package
 
     1) navigate to `file_generation_tools`
-    2) run python3 -m pip install -e . (installs `file_generation_tools` as a python3 package you can use anywhere)
+    2) run python3 -m pip install . (installs `file_generation_tools` as a python3 package you can use anywhere)
         2.a) If you want to delete package then just do python3 -m pip uninstall file_generation_tools
 #### Command Line use
 
